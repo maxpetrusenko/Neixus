@@ -1,0 +1,144 @@
+flowchart TD
+    subgraph "Client Layer"
+        Mobile["Mobile Apps
+        iOS/Android"]
+        Web["Web App
+        React/PWA"]
+        Admin["Admin Dashboard"]
+    end
+
+    subgraph "API Gateway Layer"
+        Gateway["API Gateway
+        - Rate Limiting
+        - Auth Validation
+        - Request Routing"]
+        CDN["CDN
+        - Static Assets
+        - Media Delivery"]
+    end
+
+    subgraph "Service Layer"
+        Auth["Auth Service
+        - User Authentication
+        - JWT Management
+        - OAuth Integration"]
+        
+        User["User Service
+        - Profile Management
+        - Preferences
+        - Settings"]
+        
+        Connection["Connection Service
+        - Matching Logic
+        - Relationship Management
+        - Group Formation"]
+        
+        Location["Location Service
+        - Geolocation Processing
+        - Proximity Detection
+        - Place Management"]
+        
+        Chat["Chat Service
+        - Real-time Messaging
+        - Message History
+        - Media Handling"]
+        
+        Activity["Activity Service
+        - Event Tracking
+        - Notifications
+        - Timeline Management"]
+        
+        Analytics["Analytics Service
+        - Behavior Tracking
+        - Metrics Collection
+        - Reporting"]
+    end
+
+    subgraph "ML Layer"
+        MLPipeline["ML Pipeline
+        - Model Training
+        - Feature Engineering"]
+        
+        Recommendation["Recommendation Engine
+        - Connection Suggestions
+        - Activity Proposals
+        - Group Matching"]
+        
+        Sentiment["Sentiment Analysis
+        - Mood Detection
+        - Interaction Quality
+        - Value Alignment"]
+    end
+
+    subgraph "Data Layer"
+        MainDB[(Main Database
+        PostgreSQL)]
+        
+        Cache[(Redis Cache
+        - Session Data
+        - Real-time State)]
+        
+        Search[(Elasticsearch
+        - User Search
+        - Content Search)]
+        
+        TimeseriesDB[(Time Series DB
+        - Analytics Data
+        - Metrics)]
+        
+        MessageStore[(Message Store
+        - Chat History)]
+    end
+
+    subgraph "Infrastructure Layer"
+        Queue{"Message Queue
+        Kafka/RabbitMQ"}
+        
+        Monitor["Monitoring
+        - System Health
+        - Alerts"]
+        
+        Logger["Logging
+        - Event Logging
+        - Error Tracking"]
+    end
+
+    Mobile --> Gateway
+    Web --> Gateway
+    Admin --> Gateway
+    Gateway --> CDN
+    
+    Gateway --> Auth
+    Gateway --> User
+    Gateway --> Connection
+    Gateway --> Location
+    Gateway --> Chat
+    Gateway --> Activity
+    
+    Connection --> Queue
+    Location --> Queue
+    Activity --> Queue
+    
+    Queue --> MLPipeline
+    MLPipeline --> Recommendation
+    MLPipeline --> Sentiment
+    
+    Auth --> MainDB
+    User --> MainDB
+    Connection --> MainDB
+    Location --> MainDB
+    Chat --> MessageStore
+    Activity --> TimeseriesDB
+    
+    User --> Cache
+    Connection --> Cache
+    Location --> Cache
+    Chat --> Cache
+    
+    User --> Search
+    Connection --> Search
+    
+    Analytics --> TimeseriesDB
+    
+    Queue --> Logger
+    Queue --> Monitor
